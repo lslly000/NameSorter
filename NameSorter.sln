@@ -3,9 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.31005.135
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NameSorter", "NameSorter.csproj", "{4384FA9E-3165-4ECE-8881-087395532746}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NameSorter", "NameSorter\NameSorter.csproj", "{4384FA9E-3165-4ECE-8881-087395532746}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NameSortTest", "..\NameSortTest\NameSortTest.csproj", "{38FAE5D5-36AF-4F78-A573-3B69C72AB58D}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NameSortTest", "NameSortTest\NameSortTest.csproj", "{38FAE5D5-36AF-4F78-A573-3B69C72AB58D}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

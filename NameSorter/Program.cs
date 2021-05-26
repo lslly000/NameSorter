@@ -14,24 +14,31 @@ namespace NameSorter
     {
         static async Task Main(string[] args)
         {
+
+            if(args.Length <1)
+            {
+                Console.WriteLine("Please provide the file path of the unsorted list");
+                Environment.Exit(0);
+            }
+
             var serviceCollection = new ServiceCollection();
             ConfigureServices(serviceCollection);
 
             var serviceProvider = serviceCollection.BuildServiceProvider();
-            var unsortedfilePath =  Directory.GetCurrentDirectory() + "/data/unsorted-names-list.txt";
-            var sortedfilePath = Directory.GetCurrentDirectory() + "/data/sorted-names-list.txt";
+            var filePath = args[0];
+           
 
             try
             {
-                List<Name> names =  serviceProvider.GetService<IDataLoader<Name>>().LoadData(unsortedfilePath).Result;
+                List<Name> names =  serviceProvider.GetService<IDataLoader<Name>>().LoadData(filePath).Result;
 
                 if (names.Count > 0)
                 {
                     names.Sort(new NameComparer());
 
-                    Task writeToFileTask = serviceProvider.GetService<TextDataWriter>().Write(sortedfilePath, names);
+                    Task writeToFileTask = serviceProvider.GetService<TextDataWriter>().Write(filePath, names);
 
-                    Task writeToConsoleTask = serviceProvider.GetService<ConsoleDataWriter>().Write(sortedfilePath, names);
+                    Task writeToConsoleTask = serviceProvider.GetService<ConsoleDataWriter>().Write(string.Empty, names);
 
                     await writeToFileTask;
                     await writeToConsoleTask;
