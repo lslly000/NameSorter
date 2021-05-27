@@ -1,5 +1,4 @@
-﻿using Microsoft.Extensions.DependencyInjection;
-using NameSorter.DataLoader;
+﻿using NameSorter.DataLoader;
 using NameSorter.DataModel;
 using NameSorter.Parser;
 using NameSorter.Writer;
