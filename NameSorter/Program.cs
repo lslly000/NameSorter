@@ -20,25 +20,24 @@ namespace NameSorter
                 Console.WriteLine("Please provide the file path of the unsorted list");
                 Environment.Exit(0);
             }
-
-            var serviceCollection = new ServiceCollection();
-            ConfigureServices(serviceCollection);
-
-            var serviceProvider = serviceCollection.BuildServiceProvider();
             var filePath = args[0];
-           
 
+           var sortedFilePath =  Path.GetDirectoryName(filePath) + "\\sorted-name-list.txt";
             try
             {
-                List<Name> names =  serviceProvider.GetService<IDataLoader<Name>>().LoadData(filePath).Result;
+                FullNameParser parser = new FullNameParser();
+                TextDataLoader loader = new TextDataLoader(parser);
 
+                var names =  await loader.LoadData(filePath);
                 if (names.Count > 0)
                 {
+                    TextDataWriter txtWriter = new TextDataWriter();
+                    ConsoleDataWriter consoleWriter = new ConsoleDataWriter();
                     names.Sort(new NameComparer());
 
-                    Task writeToFileTask = serviceProvider.GetService<TextDataWriter>().Write(filePath, names);
+                    Task writeToFileTask = txtWriter.Write(sortedFilePath, names);
 
-                    Task writeToConsoleTask = serviceProvider.GetService<ConsoleDataWriter>().Write(string.Empty, names);
+                    Task writeToConsoleTask = consoleWriter.Write(string.Empty, names);
 
                     await writeToFileTask;
                     await writeToConsoleTask;
@@ -60,16 +59,6 @@ namespace NameSorter
             {
                 Console.ReadLine();
             }
-        }
-
-
-        private static void ConfigureServices(IServiceCollection services)
-        {
-
-            services.AddTransient<INameParser<Name>, FullNameParser>();
-            services.AddTransient<IDataLoader<Name>, TextDataLoader>();
-            services.AddTransient<ConsoleDataWriter>();
-            services.AddTransient<TextDataWriter >();
         }
 
     }
